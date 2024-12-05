@@ -1,14 +1,21 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use regex::Regex;
 
-fn test_xmas(chars: &Vec<Vec<char>>, i_ref: usize, j_ref: usize) -> i32 {
-    let mut count = 0;
+fn count_xmas(matrix: &Vec<Vec<char>>) -> usize {
+    let re_xmas = Regex::new(r"XMAS").unwrap();
+    let re_smax = Regex::new(r"XMAS").unwrap();
 
-    if i_ref >= 3 {
-        
+    let mut total_count = 0;
+
+    for row in matrix {
+        let line: String = row.iter().collect();
+
+        total_count += re_xmas.find_iter(&line).count();
+        total_count += re_smax.find_iter(&line).count();
     }
 
-    count
+    total_count
 }
 
 fn main() {
@@ -21,16 +28,6 @@ fn main() {
         })
         .collect();
 
-    let mut count = 0;
-
-    for i in 0..chars.len() {
-        for j in 0..chars[0].len() {
-            if chars[i][j] == 'X' {
-                count += test_xmas(&chars, i, j);
-            }
-        }
-    }
-
-    println!("{}", count);
+    // TODO: Everything
 }
 
